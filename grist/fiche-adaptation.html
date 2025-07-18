@@ -174,8 +174,7 @@
     });
 
     window.grist.ready({ requiredAccess: 'read table' });
-      updateFiche(records[currentIndex]);
-    
+
     window.grist.onRecords(table => {
       records = table;
       if (records.length > 0) {
