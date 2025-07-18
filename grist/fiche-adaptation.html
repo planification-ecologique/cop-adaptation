@@ -7,18 +7,15 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f8f9fa;
-      padding: 2rem;
-      max-width: 900px;
+      background-color: transparent;
+      padding: 1rem;
       margin: auto;
       color: #333;
     }
     .fiche {
-      background-color: white;
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      margin-bottom: 2rem;
+      background-color: transparent;
+      padding: 0;
+      margin-bottom: 1rem;
     }
     h1 {
       font-size: 2em;
@@ -177,12 +174,26 @@
     });
 
     window.grist.ready({ requiredAccess: 'read table' });
-    window.grist.onRecords(function(allRecords) {
-      records = allRecords;
-      currentIndex = allRecords.findIndex(r => r.id === allRecords.currentId);
-      if (currentIndex === -1) currentIndex = 0;
       updateFiche(records[currentIndex]);
-      updateButtons();
+    
+    window.grist.onRecords(table => {
+      records = table;
+      if (records.length > 0) {
+        currentIndex = 0;
+        updateFiche(records[currentIndex]);
+        updateButtons();
+      }
+    });
+    
+    window.grist.onRecord(record => {
+      console.log(record);
+      if (record && records.length > 0) {
+        // Find the index of the clicked record
+        currentIndex = records.findIndex(r => r.id === record.id);
+        if (currentIndex === -1) currentIndex = 0;
+        updateFiche(records[currentIndex]);
+        updateButtons();
+      }
     });
   </script>
 </body>
