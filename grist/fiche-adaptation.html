@@ -78,10 +78,8 @@
       #batchContainer {
         display: block;
       }
-      .fiche:not(:last-child) {
-        page-break-after: always;
-      }
       .fiche {
+        page-break-after: always;
         box-shadow: none;
         border: none;
       }
@@ -93,7 +91,7 @@
     <button class="button" id="prevBtn">Précédent</button>
     <div class="counter" id="counter">1 / 1</div>
     <div>
-      <button class="button print-button" onclick="window.print()">Imprimer cette fiche</button>
+      <button class="button print-button" id="printCurrentBtn">Imprimer cette fiche</button>
       <button class="button print-button" id="printAllBtn">Imprimer tout</button>
     </div>
     <button class="button" id="nextBtn">Suivant</button>
@@ -164,6 +162,12 @@
         updateFiche(records[currentIndex]);
         updateButtons();
       }
+    });
+
+    document.getElementById('printCurrentBtn').addEventListener('click', () => {
+      const container = document.getElementById('batchContainer');
+      container.innerHTML = renderFicheHTML(records[currentIndex]);
+      window.print();
     });
 
     document.getElementById('printAllBtn').addEventListener('click', () => {
